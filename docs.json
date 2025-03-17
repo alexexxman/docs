@@ -46,44 +46,47 @@
           {
             "group": "全局",
             "pages": [
-              "api-reference/request-apis/currency-query"
+              "api-reference/request-apis/global/currency-query",
+              "api-reference/request-apis/global/trade-query"
             ]
           },
           {
             "group": "地址充值",
             "pages": [
-              "api-reference/request-apis/address-generate",
-              "api-reference/request-apis/validation-address-existence",
+              "api-reference/request-apis/address/address-generate",
+              "api-reference/request-apis/address/address-batch-generate",
+              "api-reference/request-apis/address/validation-address-existence",
+              "api-reference/request-apis/address/address-update",
               "api-reference/callback/address-deposit"
             ]
           },
           {
             "group": "提币",
             "pages": [
-              "api-reference/request-apis/payout-create",
-              "api-reference/request-apis/validation-address-legality",
-              "api-reference/request-apis/payout-query",
+              "api-reference/request-apis/payout/payout-create",
+              "api-reference/request-apis/payout/validation-address-legality",
+              "api-reference/request-apis/payout/payout-query",
               "api-reference/callback/payout"
             ]
           },
           {
             "group": "支付引擎",
             "pages": [
-              "api-reference/request-apis/payment-fiat-currency",
-              "api-reference/request-apis/payment-crypto-currency",
+              "api-reference/request-apis/payment/payment-fiat-currency",
+              "api-reference/request-apis/payment/payment-crypto-currency",
               {
                 "group": "V1",
                 "pages": [
-                  "api-reference/request-apis/payment-create",
-                  "api-reference/request-apis/payment-query",
+                  "api-reference/request-apis/payment/payment-create",
+                  "api-reference/request-apis/payment/payment-query",
                   "api-reference/callback/payment"
                 ]
               },
               {
                 "group": "V2",
                 "pages": [
-                  "api-reference/request-apis/payment-v2-create",
-                  "api-reference/request-apis/payment-v2-query",
+                  "api-reference/request-apis/payment/payment-v2-create",
+                  "api-reference/request-apis/payment/payment-v2-query",
                   "api-reference/callback/payment_v2"
                 ]
               }
