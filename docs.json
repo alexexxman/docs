@@ -1,102 +1,157 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Cregis Developer",
   "colors": {
-    "primary": "#16A34A",
+    "primary": "#0D9373",
     "light": "#07C983",
-    "dark": "#15803D"
+    "dark": "#0D9373"
   },
   "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "文档",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "概览",
             "pages": [
               "introduction",
-              "quickstart",
-              "development"
+              "usecases",
+              "integration"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "功能描述",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "user-recharge",
+              "withdrawal-payment"
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
+        "tab": "API 参考",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "通用接口格式",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/request",
+              "api-reference/response",
+              "api-reference/signature",
+              "api-reference/return-codes",
+              "api-reference/currency-identifiers"
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "全局",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/request-apis/currency-query"
+            ]
+          },
+          {
+            "group": "地址充值",
+            "pages": [
+              "api-reference/request-apis/address-generate",
+              "api-reference/request-apis/validation-address-existence",
+              "api-reference/callback/address-deposit"
+            ]
+          },
+          {
+            "group": "提币",
+            "pages": [
+              "api-reference/request-apis/payout-create",
+              "api-reference/request-apis/validation-address-legality",
+              "api-reference/request-apis/payout-query",
+              "api-reference/callback/payout"
+            ]
+          },
+          {
+            "group": "支付引擎",
+            "pages": [
+              "api-reference/request-apis/payment-fiat-currency",
+              "api-reference/request-apis/payment-crypto-currency",
+              {
+                "group": "V1",
+                "pages": [
+                  "api-reference/request-apis/payment-create",
+                  "api-reference/request-apis/payment-query",
+                  "api-reference/callback/payment"
+                ]
+              },
+              {
+                "group": "V2",
+                "pages": [
+                  "api-reference/request-apis/payment-v2-create",
+                  "api-reference/request-apis/payment-v2-query",
+                  "api-reference/callback/payment_v2"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "SDK和工具",
+        "groups": [
+          {
+            "group": "SDK",
+            "pages": [
+              "sdk-tool/sdk"
+            ]
+          },
+          {
+            "group": "工具",
+            "pages": [
+              "sdk-tool/tool"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "常见问题",
+        "groups": [
+          {
+            "group": "FAQs",
+            "pages": [
+              "faqs/Address",
+              "faqs/Coin",
+              "faqs/Transaction",
+              "faqs/APIKey",
+              "faqs/Callback"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "href": "https://www.cregis.com"
   },
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "客服支持",
+        "href": "https://chat.bytrack.xyz?appId=7tAbr779"
+      },
+      {
+        "label": "EN",
+        "href": "https://developer.cregis.com/"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "官网",
+      "href": "https://www.cregis.com/zh/"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "twitter": "https://twitter.com/0xCregis",
+      "github": "https://github.com/0xcregis",
+      "linkedin": "https://linktr.ee/cregisofficial"
     }
   }
 }

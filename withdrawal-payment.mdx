@@ -1,0 +1,32 @@
+---
+title: 提币付款
+# description: 'Thank you for choosing and trusting Cregis. '
+---
+## 使用方案
+
+企业转账或提币，要求从Cregis企业钱包中操作，因为企业钱包对资金有严格管理，可确保资金使用流程可靠安全，具体措施包括：
+
+1. 严格放款流程审批
+2. 基于MPC技术保证的多方签名出金
+<p align="center">
+<img
+  src="/images/intro05.png"
+  alt="withdrawal or payment scenario" width="1200" height="auto"
+/>
+</p>
+
+## 使用流程
+如上所述，企业出金围绕企业钱包进行，有着严格的流程，具体流程如下：
+<p align="center">
+<img alt="Withdrawal or Payment Process" src="/images/intro06.png" alt="" width="600" height="auto"/>
+</p>
+
+1. [确定是否支持目标币种](/api-reference/request-apis/currency-query)
+   * 如果不支持，则无法生成提币订单
+2. 验证目标地址有效性
+   * 确定目标地址在目标链上[是否为有效地址](/api-reference/request-apis/validation-address-legality)
+3. 发起提币/支付
+   * 发起[提币申请](/api-reference/request-apis/payout-create) 提交给企业钱包 
+4. 提币查询/监听
+   * 用户发起提现后，通知回调地址会收到提现状态通知。
+   * 用户通过 [查询订单](/api-reference/request-apis/payout-query) 获取订单信息

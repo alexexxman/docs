@@ -1,0 +1,64 @@
+---
+title: '创建地址'
+description: '创建新的收款地址'
+---
+
+### 接入 API
+
+POST /api/v1/address/create
+
+### 请求
+
+#### 请求参数
+
+| 名称     | 类型            | 是否必须 | 描述   |
+| ------------- | --------------- | -------- | ------------- |
+| pid           | integer(int64)  | 是      | 项目编号   |
+| chain_id      | string          | 是      | 链编号chain_id      |
+| alias         | string          | 否      | 显示名称  |
+| callback_url  | string          | 是      | 回调地址,该地址接收资金时会向对应的callback_url发起交易回调通知,回调详情请参考 [回调 > 地址收款](/api-reference/callback/address-deposit) 部分。  |
+| nonce         | string          | 是      | 6位随机字符串 |
+| timestamp     | integer(int64)  | 是      | 时间戳     |
+| sign          | string          | 是      | 签名串     |
+
+###### 请求示例
+
+```json
+{
+  "pid": 1382528827416576,
+  "callback_url": "http://xxxx.com/deposit/callback",
+  "chain_id": "60",
+  "alias": "cc",
+  "nonce": "ubqso3",
+  "timestamp": 1687850657960,
+  "sign": "f5be13fdd8c6f63951ca4427359457cb"
+}
+```
+### 返回
+
+#### 返回结果
+
+| 名称  | 类型   | 描述      |
+| ----- | ------ | ---------------- |
+| code  | string | 返回码    |
+| msg   | string | 返回信息 |
+| data  | object | 返回数据 |
+
+#### 返回数据 `data` 对象
+
+| 名称    | 类型   | 描述 |
+| ------- | ------ | ----------- |
+| address | string | 地址     |
+
+###### 返回示例
+
+```json
+{
+  "code": "00000",
+  "msg": "ok",
+  "data": {
+    "address": "TBotPUNNgeSJmqWkSE7JoHdAnsdMyVnUca"
+  }
+}
+```
+

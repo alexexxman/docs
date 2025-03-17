@@ -1,0 +1,44 @@
+---
+title: 用户充值
+# description: 'Thank you for choosing and trusting Cregis. '
+---
+## 使用方案
+针对每个用户，推荐分配唯一专属充值地址，则该用户所有的充值操作，都会围绕该地址进行，好处是：
+
+1. 对于每种资产类型，会为每个用户分配一个充值账
+2. 充值账户会反复使用，便利用户经常性入金
+3. 用户与充值帐户唯一对应关系，也确保个人账务明确性
+<p align="center">
+<img
+  src="/images/intro01.png"
+  alt="User Recharge Scenario" width="1000" height="auto"
+/>
+</p>
+
+
+## 使用流程
+
+如上所述，会给用户分配唯一对应的充值地址，一般发生在接纳新客户时，如发生用户注册，具体流程如下：
+
+<p align="center">
+<img alt="User Recharge Process" src="/images/intro02.png" alt="" width="300" height="auto"/>
+</p>
+
+
+1. 用户注册
+   * 用户通过业务系统发起新用户注册
+   * 用户注册成功后，业务系统会发起请求为用户生成专属充值帐户
+2. [确定是否支持目标币种](/api-reference/request-apis/currency-query)
+   * 若不支持，则无法生成账户
+3. 生成专属充值帐户
+   * 业务系统调用 [生成地址](api-reference/request-apis/address-generate) 请求，为该用户分配专属充值帐户
+   * 对于每种资产类型，会为每个用户分配一个充值账户
+   * 充值账户会反复使用，便利用户经常性入金
+   * 用户与充值帐户唯一对应关系，也确保个人账务明确性
+4. 监听用户入金
+   * 通过被动 [监听](api-reference/callback/address-deposit) 方式监听充值入金
+   * 用户需指定通知回调地址
+5. 用户充值
+   * 用户可选择通过任何第三方钱包，向专属充值账户打款入金
+6. 入金通知
+   * 用户充值后，通知回调地址会接收到充值通知

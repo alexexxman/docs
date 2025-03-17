@@ -1,0 +1,72 @@
+---
+title: '查询支持法币'
+description: '查询系统支持的法币信息'
+---
+
+### 接入API
+
+POST /api/v1/order_fiat_currency
+
+### 请求
+
+#### 请求参数
+| 名称       | 类型           | 是否必须 | 描述          |
+|------------|----------------|----------|----------------------|
+| pid        | integer(int64) | 是     | 项目编号           |
+| nonce      | string         | 是     | 6位随机字符串 |
+| timestamp  | integer(int64) | 是     | 时间戳            |
+| sign       | string         | 是     | 签名            |
+
+###### 请求示例
+
+```json
+{
+    "pid": 1382528827416576,
+    "nonce": "hwlkk6",
+    "timestamp": 1688004243314,
+    "sign": "d6eef2de79e39f434a38efb910213ba6"
+}
+```
+
+### 返回
+
+#### 返回数据
+
+| 名称  | 类型     | 描述          |
+| ----- | ------ | --------------------- |
+| code  | string | 返回码           |
+| msg   | string | 返回信息        |
+| data  | array | 返回数据    |
+
+#### 返回数据 `data` 对象
+
+| 名称           | 类型           | 描述            |
+|----------------|----------------|------------------------|
+| currency_code      | string         | 货币代码【例如CNY、HKD】             |
+| currency_decimals   | string        | 货币精度               |
+| currency_symbol   | string         | 货币符号【例如￥、$】               |
+| currency_name | string         | 货币名称 【例如 US Dollar】              |
+
+
+###### 返回示例
+
+```json
+{
+    "code": "00000",
+    "msg": "ok",
+    "data": [
+        {
+            "currency_code": "CNY",
+            "currency_decimals": 2,
+            "currency_symbol": "￥",
+            "currency_name": "RMB"
+        },
+        {
+            "currency_code": "HKD",
+            "currency_decimals": 2,
+            "currency_symbol": "$",
+            "currency_name": "Dollar"
+        }
+    ]
+}
+```

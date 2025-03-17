@@ -1,0 +1,174 @@
+---
+title: '查询订单信息'
+description: '查询订单详情'
+---
+
+### 接入API
+
+POST /api/v2/order/info
+
+### 请求
+
+#### 请求参数
+| 名称       | 类型           | 是否必须 | 描述          |
+|------------|----------------|----------|----------------------|
+| pid        | integer(int64) | 是     | 项目编号           |
+| nonce      | string         | 是     | 6位随机字符串 |
+| timestamp  | integer(int64) | 是     | 时间戳            |
+| sign       | string         | 是     | 签名            |
+| cregis_id  | string        | 是    | cregis订单编号 |
+
+
+###### 请求示例
+
+```json
+{
+    "cregis_id": "po20240703132452000",
+    "pid": 1382528827416576,
+    "nonce": "hwlkk6",
+    "timestamp": 1688004243314,
+    "sign": "d6eef2de79e39f434a38efb910213ba6"
+}
+```
+
+### 返回
+
+#### 返回数据
+
+| 名称  | 类型     | 描述          |
+| ----- | ------ | --------------------- |
+| code  | string | 返回码           |
+| msg   | string | 返回信息        |
+| data  | object | 返回数据    |
+
+#### 返回数据 `data` 对象
+
+| 名称           | 类型           | 描述            |
+|----------------|----------------|------------------------|
+| cregis_id         | string         | cregis订单编号                                               |
+| order_id          | string         | 调用方订单编号                                               |
+| order_amount      | string         | 订单交易金额                                                 |
+| order_currency    | string         | 订单交易金额单位                                             |
+| created_time      | integer(int64) | 订单创建时间【13位时间戳】                                   |
+| cancel_time       | integer(int64) | 订单取消时间 【13位时间戳】                                  |
+| transact_time     | integer(int64) | 订单支付完成时间【到账时间 13位时间戳】                      |
+| valid_time        | integer(int64) | 提交订单时设置的超时时间【单位/分钟】                        |
+| status            | string         | 订单支付状态（new-待支付,paid-已支付，expired-订单超出有效时间，paid_over-付款超出订单金额  paid_partial-付款小于订单金额） |
+| payer_id          | string         | 付款人信息                                                   |
+| payer_name        | string         | 付款人名称                                                   |
+| payer_email       | string         | 付款人邮箱                                                   |
+| remark            | string         | 订单备注信息                                                 |
+| payment_detail    | array          | 交易信息数组                                                 |
+| payment_info      | array          | 地址信息数组                                                 |
+| order_details     | Object         | 商品信息                                                     |
+| settlement_status | string         | 结算状态【unsettled /settling/settled】                      |
+| settlement_type   | string         | 结算类型 【system/manual】                                   |
+| sub_merchant      | string         | 子商户信息                                                   |
+
+**payment_detail object **
+
+| 名称             | 类型   | 描述                     |
+| ---------------- | ------ | ------------------------ |
+| payment_address  | string | 充值地址                 |
+| from_address     | string | from地址                 |
+| receive_amount   | string | 汇率转换后的订单金额     |
+| receive_currency | string | 汇率转换后的订单货币代码 |
+| pay_amount       | string | 实际到账金额             |
+| pay_currency     | string | 到账货币代码             |
+| exchange_rate    | string | 货币汇率                 |
+| tx_id            | string | 交易hash                 |
+
+
+
+**payment_info object**
+
+| 名称             | 类型    | 描述                   |
+| ---------------- | ------- | ---------------------- |
+| payment_address  | string  | 充值地址               |
+| token_symbol     | string  | 货币标识               |
+| blockchain       | string  | 货币网络               |
+| token_name       | string  | 货币名称               |
+| logo_url         | string  | 货币logo地址           |
+| token_decimals   | integer | 货币精度               |
+| receive_amount   | string  | 汇率转换后的订单金额   |
+| receive_currency | string  | 汇率转换后订单货币代码 |
+| exchange_rate    | string  | 货币汇率               |
+| asset_logo       | string  | 资产logo               |
+
+
+###### 返回示例
+
+```json
+{
+    "code": "00000",
+    "msg": "ok",
+    "data": {
+        "cregis_id": "po1420761885130752",
+        "order_id": "merchant_order_id_123",
+        "order_amount": "5",
+        "order_currency": "HKD",
+        "created_time": 1734328473070,
+        "cancel_time": null,
+        "transact_time": null,
+        "valid_time": 60,
+        "status": "new",
+        "payer_id": "payer001",
+        "payer_name": "payer",
+        "payer_email": "1538536064@qq.com",
+        "remark": "收银台备注",
+        "payment_detail": null,
+        "payment_info": [
+            {
+                "payment_address": "0xf9d70ab23195cfc9c0c14b384a1fd3a3f12cd4f8",
+                "token_symbol": "USDT",
+                "blockchain": "BNB-BSC",
+                "token_name": "USDT-BEP20",
+                "logo_url": "https://static.cregis.io/pic/coin/USDT-BNB%20Chain-BEP20@8x.png",
+                "token_decimals": 18,
+                "receive_amount": "0.642951",
+                "receive_currency": "USDT",
+                "exchange_rate": "0.1285902181",
+                "asset_logo": "https://static.cregis.io/pic/coin/tether%20usd-usdt-with-currency@8x.png"
+            },
+            {
+                "payment_address": "TX8GZJfLYPtmzRgd3FoiXuCHbptiQ37NSM",
+                "token_symbol": "USDT",
+                "blockchain": "TRON",
+                "token_name": "USDT-TRC20",
+                "logo_url": "https://static.cregis.io/pic/coin/USDT-Tron-TRC20@8x.png",
+                "token_decimals": 6,
+                "receive_amount": "0.642951",
+                "receive_currency": "USDT",
+                "exchange_rate": "0.1285902181",
+                "asset_logo": "https://static.cregis.io/pic/coin/tether%20usd-usdt-with-currency@8x.png"
+            }
+        ],
+        "order_details": {
+            "items": [
+                {
+                    "item_id": "1",
+                    "item_name": "Product1",
+                    "item_price": 123,
+                    "price_currency": "HKD",
+                    "item_quantity": 1
+                },
+                {
+                    "item_id": "1",
+                    "item_name": "Product2",
+                    "item_price": 124,
+                    "price_currency": "HKD",
+                    "item_quantity": 1
+                }
+            ],
+            "shopping_cost": 10.88,
+            "tax_cost": 100
+        },
+        "settlement_status": "unsettled",
+        "settlement_type": "",
+        "sub_merchant": {
+            "sub_merchant_id": "123",
+            "sub_merchant_name": "kg"
+        }
+    }
+}
+```

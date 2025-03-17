@@ -1,0 +1,167 @@
+---
+title: '创建订单'
+description: '创建包含收银台页面支付页面的订单'
+---
+
+### 接入API
+
+POST /api/v2/checkout
+
+### 请求
+
+#### 请求参数
+| 名称       | 类型           | 是否必须 | 描述          |
+|------------|----------------|----------|----------------------|
+| pid        | integer(int64) | 是     | Cregis中该收单项目的唯一编号           |
+| nonce      | string         | 是     | 6位随机字符串 |
+| timestamp  | integer(int64) | 是     | 时间戳            |
+| sign       | string         | 是     | 签名            |
+| order_id   | string         | 是     | 调⽤⽅唯⼀订单编号【不超过128位字符】 |
+| order_amount   | string         | 是     | 付款总额【精度可以参考法币信息列表接⼝decimals字段值】 |
+| order_currency   | string         | 是     | 订单货币代码，即ISO 4217货币代码,例如 CNY、HKD，参考法币信息列表接⼝ |
+| order_details | JSONString | 否 | 订单详情，订单内的商品，单价及购买数量将可显示在收银台页面的订单详情部分，方便用户在支付过程中确认订单内容
+| sub_merchant | JSONString | 否 | 商户可使用此字段来记录内部子商户的编号
+| payer_id       | string         | 是     | 付款⼈id标识【不超过32位字符】            |
+| payer_name       | string         | 否     | 付款⼈姓名【不超过32位字符】            |
+| payer_email       | string         | 否     | 付款⼈邮箱            |
+| tokens | ArrayString | 否 | 通过在tokens字段中输入相应的token_name来控制您允许客户支付的代币 <br /> 如果此字段留空，则表示您接受Cregis支持的所有代币作为客户的支付代币。可以通过 POST /api/v1/order_crypto_currency获得Cregis支付引擎中所有支持的代币 <br /> 示例: ["USDT-TRC20","USDT-BEP20"]  |
+| stablecoin_realtime_rate | string | 否 | 默认值：false <br />false：代表 USDT/USDC 兑 USD 使用固定1:1的汇率 <br />true：代表 USDT/USDC兑USD 使用从CoinMarketCap上获取的实时汇率  |
+| callback_url   | string         | 否     | 回调通知地址：Cregis 会向此地址发送付款状态更新的 webhook 通知     |
+| remark       | string         | 否     | 商户可对这笔支付订单做出备注【不超过256位字符】            |
+| valid_time       | integer         | 否     | 设置订单超时时间【单位/分钟】，区间【10-60】，如果未填写，系统默认设置为30分钟；            |
+| success_url | string | 是 | 付款成功后，点击“返回商店”按钮，付款人将被重定向到此 URL。请确保 URL 中包含“http://”或“https://”      |
+| cancel_url | string | 是 |  未付款并点击“取消”按钮，则重定向 URL。请确保 URL 中包含“http://”或“https://”   |
+
+**order_details object**
+
+| 名称          | 类型    | 是否必须 | 描述         |
+| ------------- | ------- | -------- | ------------ |
+| shopping_cost | decimal | 否       | 运费         |
+| tax_cost      | decimal | 否       | 消费税       |
+| items         | JSONArrayString   | 否       | 商品信息列表 |
+
+​**items object**
+
+| 名称           | 类型           | 是否必须 | 描述                          |
+| -------------- | -------------- | -------- | ----------------------------- |
+| item_id        | string         | 否       | 商品ID                        |
+| item_name      | string         | 否       | 商品名称                      |
+| item_price     | decimal        | 否       | 商品价格                      |
+| price_currency | string         | 否       | 商品价格货币代码【列如：HKD】 |
+| item_quantity  | integer(int64) | 否       | 商品数量                      |
+
+**sub_merchant object**
+
+| 名称              | 类型   | 是否必须 | 描述     |
+| ----------------- | ------ | -------- | -------- |
+| sub_merchant_id   | string | 否       | 商户ID   |
+| sub_merchant_name | string | 否       | 商户名称 |
+
+###### 请求示例
+
+```json
+{
+    "timestamp": 1734327655,
+    "nonce": "dositl",
+    "sign": "f5be13fdd8c6f63951ca4427359457cb",
+    "order_id": "merchant_order_id_12334567",
+    "order_amount": "5",
+    "order_currency": "USD",
+    "callback_url": "https://callback.com",
+    "remark": "VIP order",
+    "payer_id": "payer001",
+    "payer_name": "payer",
+    "payer_email": "payer@gmail.com",
+    "valid_time": 60,
+    "pid": 1419287201923072,
+    "cancel_url": "https://cancel.merchant.com",
+    "success_url": "https://success.merchant.com",
+    "tokens": "[\"USDT-TRC20\",\"USDT-BEP20\"]",
+    "order_details": "{\"items\": [{\"item_id\": \"10001\", \"item_name\": \"Product1\",\"item_price\": 123.00,\"item_quantity\": 1,\"price_currency\": \"USD\"},{\"item_id\": \"10002\", \"item_name\": \"Product2\",\"item_price\": 100.00,\"item_quantity\": 2,\"price_currency\": \"USD\"}],\"shopping_cost\": 10.88,\"tax_cost\": 10.00}"
+    "sub_merchant": "{\"sub_merchant_id\": \"submerchant10001\",\"sub_merchant_name\": \"Merchant1\"}"
+}
+```
+
+### 返回
+
+#### 返回数据
+
+| 名称  | 类型     | 描述          |
+| ----- | ------ | --------------------- |
+| code  | string | 返回码           |
+| msg   | string | 返回信息        |
+| data  | Array | 返回数据    |
+
+#### 返回数据 `data` 数组对象
+
+| 名称           | 类型           | 描述            |
+|----------------|----------------|------------------------|
+| cregis_id      | string         | Cregis唯⼀识标             |
+| checkout_url   | string         | 收银台链接        |
+| merchant_name     | string         | 收银台展示的商户名称         |
+| merchant_logo_url | string         | 收银台展示的商户logo         |
+| order_amount   | string         | 订单交易⾦额【精度可以参考法币信息列表接⼝decimals字段值】               |
+| order_currency | string         | 订单货币代码，即ISO 4217货币代码,例如CNY、HKD，参考法币信息列表接⼝               |
+| created_time   | integer(int64) | 订单创建时间【13位时间戳】    |
+| expire_time    | integer(int64) | 订单到期时间【13位时间戳】     |
+| payment_info   | array          | 订单相关讯息                 |
+
+#### `payment_info` 对象
+
+| 名称           | 类型           | 描述            |
+|----------------|----------------|------------------------|
+| payment_address      | string         | 充值地址             |
+| token_symbol   | string         | 货币标识               |
+| blockchain | string         | 货币⽹络               |
+| token_name   | string | 货币名称    |
+| logo_url    | string | 货币logo地址               |
+| token_decimals   | integer          | 货币精度                 |
+| receive_amount   | string          | 汇率转换后的订单⾦额                 |
+| receive_currency   | string          | 汇率转换后订单货币代码                 |
+| exchange_rate   | string          | 货币汇率                 |
+| asset_logo       | string  | 资产logo               |
+
+###### 返回示例
+
+```json
+{
+    "code": "00000",
+    "msg": "ok",
+    "data": {
+        "cregis_id": "po1420761885130752",
+        "checkout_url": "http://192.168.2.60:9099?cid=b2fb433c953a43bd9bdfc3f611567887",
+        "merchant_name": null,
+        "merchant_logo_url": null,
+        "order_amount": "5",
+        "order_currency": "HKD",
+        "created_time": 1734328473070,
+        "expire_time": 1734332073070,
+        "payment_info": [
+            {
+                "payment_address": "TX8GZJfLYPtmzRgd3FoiXuCHbptiQ37NSM",
+                "token_symbol": "USDT",
+                "blockchain": "TRON",
+                "token_name": "USDT-TRC20",
+                "logo_url": "https://static.cregis.io/pic/coin/USDT-Tron-TRC20@8x.png",
+                "token_decimals": 6,
+                "receive_amount": "0.642951",
+                "receive_currency": "USDT",
+                "exchange_rate": "0.1285902181",
+                "asset_logo": "https://static.cregis.io/pic/coin/tether%20usd-usdt-with-currency@8x.png"
+            },
+            {
+                "payment_address": "0xf9d70ab23195cfc9c0c14b384a1fd3a3f12cd4f8",
+                "token_symbol": "USDT",
+                "blockchain": "BNB-BSC",
+                "token_name": "USDT-BEP20",
+                "logo_url": "https://static.cregis.io/pic/coin/USDT-BNB%20Chain-BEP20@8x.png",
+                "token_decimals": 18,
+                "receive_amount": "0.642951",
+                "receive_currency": "USDT",
+                "exchange_rate": "0.1285902181",
+                "asset_logo": "https://static.cregis.io/pic/coin/tether%20usd-usdt-with-currency@8x.png"
+            },
+        ]
+    }
+}
+```

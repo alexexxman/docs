@@ -1,0 +1,156 @@
+---
+title: '查询订单信息'
+description: '查询订单详情'
+---
+
+### 接入API
+
+POST /api/v1/order/info
+
+### 请求
+
+#### 请求参数
+| 名称       | 类型           | 是否必须 | 描述          |
+|------------|----------------|----------|----------------------|
+| pid        | integer(int64) | 是     | 项目编号           |
+| nonce      | string         | 是     | 6位随机字符串 |
+| timestamp  | integer(int64) | 是     | 时间戳            |
+| sign       | string         | 是     | 签名            |
+| cregis_id  | string        | 是    | cregis订单编号 |
+
+
+###### 请求示例
+
+```json
+{
+    "cregis_id": "po20240703132452000",
+    "pid": 1382528827416576,
+    "nonce": "hwlkk6",
+    "timestamp": 1688004243314,
+    "sign": "d6eef2de79e39f434a38efb910213ba6"
+}
+```
+
+### 返回
+
+#### 返回数据
+
+| 名称  | 类型     | 描述          |
+| ----- | ------ | --------------------- |
+| code  | string | 返回码           |
+| msg   | string | 返回信息        |
+| data  | object | 返回数据    |
+
+#### 返回数据 `data` 对象
+
+| 名称           | 类型           | 描述            |
+|----------------|----------------|------------------------|
+| cregis_id      | string         | Cregis订单编号             |
+| order_id   | string         | 商户订单编号               |
+| order_amount   | string         | 订单交易金额，由商户定义               |
+| order_currency | string         | 订单交易金额单位，由商户定义              |
+| created_time   | integer(int64) | 订单创建时间【13位时间戳】   |
+| cancel_time    | integer(int64) | 订单取消时间【13位时间戳】   |
+| transact_time    | integer(int64) | 订单支付完成时间【13位时间戳】    |
+| valid_time    | integer | 提交订单时设置的超时时间【单位/分钟】    |
+| status    | string | 订单状态 - new 订单初始状态  - paid 订单已成功支付  - expired 订单超出有效时间 - 异常状态 - paid_over 付款超出订单金额 - paid_partial 付款小于订单金额    |
+| reamrk    | string | 订单备注信息    |
+| payer_id    | string | 付款人id标识    |
+| payer_name    | string | 付款人姓名    |
+| payer_email    | string | 付款人邮箱    |
+| payment_info   | array          | 订单相关讯息                 |
+| payment_detail   | array          | 支付明细                 |
+
+#### `payment_info` 对象
+
+| 名称           | 类型           | 描述            |
+|----------------|----------------|------------------------|
+| payment_address      | string         | 充值地址             |
+| token_symbol   | string         | 货币标识               |
+| blockchain | string         | 货币⽹络               |
+| token_name   | string | 货币名称    |
+| logo_url    | string | 货币logo地址               |
+| token_decimals   | integer          | 货币精度                 |
+| receive_amount   | string          | 汇率转换后的订单⾦额                 |
+| receive_currency   | string          | 汇率转换后订单货币代码                 |
+| exchange_rate   | string          | 货币汇率                 |
+
+#### `payment_detail` 对象
+
+| 名称           | 类型           | 描述            |
+|----------------|----------------|------------------------|
+| payment_address      | string         | 付款地址             |
+| receive_amount   | string         | 汇率转换后的该收订单金额               |
+| receive_currency | string         | 汇率转换后的订单货币代码               |
+| pay_amount   | string | 实际到账金额    |
+| pay_currency    | string | 到账货币代码               |
+| exchange_rate   | string          | 汇率                 |
+| tx_id   | string          | 交易hash                 |
+
+###### 返回示例
+
+```json
+{
+    "code": "00000",
+    "msg": "ok",
+    "data": {
+        "cregis_id": "po20240703132452000",
+        "order_id": "c9231e604da54469a735af3f449c880f",
+        "order_amount": "100",
+        "order_currency": "CNY",
+        "created_time": 1719993183015,
+        "cancel_time": null,
+        "transact_time": 1719993183325,
+        "valid_time": 30,
+        "status": "paid",
+        "payer_id": "p_001",
+        "payer_name": "",
+        "payer_email": ""
+        "reamrk":"购买商品",
+        "payment_info": [
+            {
+                "payment_address": "TLKz6k1EvMs2sMwTEbqQ6SZfbhzLU7XsQR",
+                "token_symbol": "USDT",
+                "blockchain": "TRON#Shasta",
+                "token_name": "BEP20#Testnet",
+                "logo_url": "",
+                "token_decimals": 18,
+                "receive_amount": "21.20",
+                "receive_currency": "USDT",
+                "exchange_rate": "0.000001111"
+            },
+            {
+                "payment_address": "0xd38c2cf366a731dcbe4a32c7ef24ff96d080ca7e",
+                "token_symbol": "USDC",
+                "blockchain": "BNB-BSC",
+                "token_name": "USDT-BEP20",
+                "logo_url": "",
+                "token_decimals": 18,
+                "receive_amount": "21.30",
+                "receive_currency": "USDC",
+                "exchange_rate": "0.0000022222"
+            }
+        ],
+        "payment_detail": [
+            {
+                "payment_address": "0xd38c2cf366a731dcbe4a32c7ef24ff96d080ca7e",
+                "receive_amount": "20.01",
+                "receive_currency": "USDT",
+                "pay_amount": "10",
+                "pay_currency": "USDT",
+                "exchange_rate": "7.0000000001",
+                "tx_id": "0x0502f2bfd96cd0f55edea3343513940f3af7fe594eae77f08d2f46ea24829b11"
+            },
+            {
+                "payment_address": "0xd38c2cf366a731dcbe4a32c7ef24ff96d080ca7e",
+                "receive_amount": "20.01",
+                "receive_currency": "USDT",
+                "pay_amount": "10.01",
+                "pay_currency": "USDT",
+                "exchange_rate": "7.0000000001",
+                "tx_id": "0x0502f2bfd96cd0f55edea3343513940f3af7fe594eae77f08d2f46ea24829b22"
+            }
+        ]
+    }
+}
+```
