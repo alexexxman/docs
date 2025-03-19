@@ -47,7 +47,9 @@
             "group": "全局",
             "pages": [
               "api-reference/request-apis/global/currency-query",
-              "api-reference/request-apis/global/trade-query"
+              "api-reference/request-apis/global/trade-query",
+              "api-reference/request-apis/payment/payment-fiat-currency",
+              "api-reference/request-apis/payment/payment-crypto-currency"
             ]
           },
           {
@@ -70,26 +72,19 @@
             ]
           },
           {
-            "group": "支付引擎",
+            "group": "支付引擎V1",
             "pages": [
-              "api-reference/request-apis/payment/payment-fiat-currency",
-              "api-reference/request-apis/payment/payment-crypto-currency",
-              {
-                "group": "V1",
-                "pages": [
-                  "api-reference/request-apis/payment/payment-create",
-                  "api-reference/request-apis/payment/payment-query",
-                  "api-reference/callback/payment"
-                ]
-              },
-              {
-                "group": "V2",
-                "pages": [
-                  "api-reference/request-apis/payment/payment-v2-create",
-                  "api-reference/request-apis/payment/payment-v2-query",
-                  "api-reference/callback/payment_v2"
-                ]
-              }
+              "api-reference/request-apis/payment/payment-create",
+              "api-reference/request-apis/payment/payment-query",
+              "api-reference/callback/payment"
+            ]
+          },
+          {
+            "group": "支付引擎V2",
+            "pages": [
+              "api-reference/request-apis/payment/payment-v2-create",
+              "api-reference/request-apis/payment/payment-v2-query",
+              "api-reference/callback/payment_v2"
             ]
           }
         ]
